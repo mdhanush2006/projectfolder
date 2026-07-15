@@ -1,0 +1,452 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =====================================================
+   BASE STYLES — Light Professional Theme
+   ===================================================== */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+
+  body {
+    @apply font-sans text-text-primary overflow-x-hidden min-h-screen;
+    background: #F8FAFC;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #F1F5F9; }
+  ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #FFD600; }
+
+  /* Selection */
+  ::selection { background: #FFD600; color: #1A1A2E; }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold text-text-primary;
+    line-height: 1.3;
+  }
+}
+
+/* =====================================================
+   CARD SYSTEM
+   ===================================================== */
+@layer components {
+  .card {
+    @apply bg-white rounded-2xl border border-surface-200 shadow-card;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .card-hover {
+    @apply card cursor-pointer;
+  }
+  .card-hover:hover {
+    @apply shadow-card-hover;
+    transform: translateY(-2px);
+    border-color: rgba(255, 214, 0, 0.4);
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05), 0 0 0 2px rgba(255,214,0,0.2);
+  }
+
+  .card-glass {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 1rem;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8);
+  }
+
+  /* Legacy glass-panel (kept for backward compat) */
+  .glass-panel {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+
+  .glass-panel-hover {
+    transition: all 0.3s ease;
+  }
+  .glass-panel-hover:hover {
+    box-shadow: 0 0 0 2px rgba(255,214,0,0.3), 0 8px 24px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+  }
+
+  /* ---- SIDEBAR ---- */
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-text-secondary font-medium text-sm cursor-pointer;
+    transition: all 0.2s ease;
+  }
+  .sidebar-item:hover {
+    @apply bg-surface-100 text-text-primary;
+  }
+  .sidebar-item.active {
+    @apply bg-brand-yellow text-brand-black font-semibold;
+    box-shadow: 0 4px 12px rgba(255,214,0,0.35);
+  }
+  .sidebar-item.active svg {
+    color: #1A1A2E;
+  }
+
+  /* ---- BUTTONS ---- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-semibold rounded-xl px-5 py-2.5 text-sm;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .btn-yellow {
+    @apply btn bg-brand-yellow text-brand-black;
+    box-shadow: 0 4px 14px rgba(255,214,0,0.4);
+  }
+  .btn-yellow:hover {
+    @apply bg-brand-yellow-dark;
+    box-shadow: 0 6px 20px rgba(255,214,0,0.5);
+    transform: translateY(-1px);
+  }
+  .btn-yellow:active { transform: translateY(0px); }
+
+  .btn-outline {
+    @apply btn bg-white text-text-primary border border-surface-200;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .btn-outline:hover {
+    @apply border-brand-yellow bg-brand-yellow-light;
+  }
+
+  .btn-ghost {
+    @apply btn text-text-secondary;
+  }
+  .btn-ghost:hover {
+    @apply bg-surface-100 text-text-primary;
+  }
+
+  .btn-dark {
+    @apply btn bg-brand-black text-white;
+    box-shadow: 0 4px 14px rgba(26,26,46,0.3);
+  }
+  .btn-dark:hover {
+    @apply bg-brand-charcoal;
+    box-shadow: 0 6px 20px rgba(26,26,46,0.4);
+    transform: translateY(-1px);
+  }
+
+  /* ---- RIPPLE ---- */
+  .ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    animation: ripple 0.6s linear;
+    pointer-events: none;
+  }
+
+  /* ---- BADGE ---- */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  }
+  .badge-yellow { @apply badge bg-brand-yellow-light text-yellow-800; }
+  .badge-green { @apply badge bg-emerald-50 text-emerald-700; }
+  .badge-red { @apply badge bg-red-50 text-red-700; }
+  .badge-blue { @apply badge bg-blue-50 text-blue-700; }
+  .badge-gray { @apply badge bg-surface-100 text-text-secondary; }
+
+  /* ---- INPUT ---- */
+  .form-input {
+    @apply w-full px-4 py-3 bg-surface-50 border border-surface-200 rounded-xl text-text-primary text-sm;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+  .form-input:focus {
+    @apply border-brand-yellow bg-white;
+    box-shadow: 0 0 0 3px rgba(255,214,0,0.2);
+  }
+  .form-input::placeholder { @apply text-text-muted; }
+
+  .form-label {
+    @apply block text-sm font-medium text-text-secondary mb-1.5;
+  }
+
+  /* Legacy glass-input for backward compat */
+  .glass-input {
+    @apply form-input;
+  }
+  .glass-input:focus {
+    @apply border-brand-yellow bg-white;
+    box-shadow: 0 0 0 3px rgba(255,214,0,0.2);
+  }
+
+  /* ---- GLASS BTN variants (legacy) ---- */
+  .glass-btn {
+    @apply btn bg-surface-100 text-text-secondary border border-surface-200;
+  }
+  .glass-btn:hover {
+    @apply bg-surface-200 text-text-primary;
+  }
+  .glass-btn-primary {
+    @apply btn-yellow;
+  }
+  .glass-btn-active {
+    @apply bg-brand-yellow text-brand-black;
+  }
+
+  /* ---- STAT CARD ---- */
+  .stat-card {
+    @apply card p-5 flex flex-col gap-2;
+  }
+  .stat-value {
+    @apply text-3xl font-bold text-text-primary;
+  }
+  .stat-label {
+    @apply text-sm text-text-muted font-medium;
+  }
+
+  /* ---- EXAM CARD ---- */
+  .exam-card {
+    @apply flex items-center gap-3 p-3 rounded-xl bg-white border border-surface-200 cursor-pointer;
+    transition: all 0.2s ease;
+  }
+  .exam-card:hover {
+    border-color: rgba(255,214,0,0.5);
+    box-shadow: 0 4px 16px rgba(255,214,0,0.2);
+    transform: translateX(2px);
+  }
+
+  /* ---- PROGRESS BAR ---- */
+  .progress-track {
+    @apply w-full h-2 bg-surface-100 rounded-full overflow-hidden;
+  }
+  .progress-fill {
+    @apply h-full rounded-full;
+    transition: width 1s ease-out;
+  }
+  .progress-fill-yellow { @apply progress-fill bg-brand-yellow; }
+  .progress-fill-green { @apply progress-fill bg-emerald-500; }
+  .progress-fill-blue { @apply progress-fill bg-blue-500; }
+  .progress-fill-red { @apply progress-fill bg-red-500; }
+
+  /* ---- SECTION HEADER ---- */
+  .section-header {
+    @apply flex items-center justify-between mb-4;
+  }
+  .section-title {
+    @apply text-base font-semibold text-text-primary;
+  }
+  .section-link {
+    @apply text-xs font-medium text-text-muted hover:text-brand-yellow transition-colors cursor-pointer;
+  }
+
+  /* ---- NAVBAR ---- */
+  .navbar {
+    @apply fixed top-0 left-0 right-0 z-50 bg-white border-b border-surface-200;
+    height: 64px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+  }
+
+  /* ---- PAGE WRAPPER ---- */
+  .page-wrapper {
+    @apply min-h-screen bg-surface-50;
+    padding-top: 64px;
+  }
+
+  /* ---- SKELETON ---- */
+  .skeleton {
+    background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 0.5rem;
+  }
+
+  /* Legacy shimmer-bg */
+  .shimmer-bg {
+    background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+  }
+
+  /* ---- RECHARTS override ---- */
+  .recharts-default-tooltip {
+    background: rgba(255,255,255,0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    color: #1A1A2E !important;
+  }
+  .recharts-tooltip-label { color: #1A1A2E !important; font-weight: 600 !important; }
+
+  /* ---- CHAT BUBBLE ---- */
+  .chat-bubble-user {
+    @apply bg-brand-yellow text-brand-black rounded-2xl rounded-br-sm px-4 py-3 text-sm font-medium;
+    max-width: 75%;
+  }
+  .chat-bubble-ai {
+    @apply bg-white border border-surface-200 text-text-primary rounded-2xl rounded-bl-sm px-4 py-3 text-sm;
+    max-width: 75%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  /* ---- QUESTION PALETTE ---- */
+  .q-dot {
+    @apply w-9 h-9 rounded-lg text-xs font-semibold flex items-center justify-center cursor-pointer;
+    transition: all 0.15s ease;
+  }
+  .q-dot:hover { transform: scale(1.1); }
+  .q-dot-unanswered { @apply bg-surface-100 text-text-muted border border-surface-200; }
+  .q-dot-answered { @apply bg-emerald-500 text-white; }
+  .q-dot-marked { @apply bg-orange-400 text-white; }
+  .q-dot-current { @apply bg-brand-yellow text-brand-black border-2 border-brand-black; }
+  .q-dot-skipped { @apply bg-red-100 text-red-600 border border-red-200; }
+
+  /* ---- BLOB (legacy, hidden on light theme) ---- */
+  .blob-container {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1; overflow: hidden;
+    pointer-events: none; opacity: 0;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.08;
+  }
+}
+
+/* =====================================================
+   ANIMATIONS
+   ===================================================== */
+@keyframes ripple {
+  0% { transform: scale(0); opacity: 0.6; }
+  100% { transform: scale(4); opacity: 0; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.15); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes bounceGentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =====================================================
+   TILT CARD
+   ===================================================== */
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease;
+}
+.tilt-card-inner {
+  transform: translateZ(20px);
+}
+
+/* =====================================================
+   SCROLLBAR THIN
+   ===================================================== */
+.scrollbar-thin::-webkit-scrollbar { width: 4px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 2px; }
+
+/* =====================================================
+   PAGE TRANSITION
+   ===================================================== */
+.page-enter {
+  animation: fadeUp 0.35s ease-out both;
+}
+
+/* =====================================================
+   CIRCULAR SCORE
+   ===================================================== */
+.score-ring {
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+/* =====================================================
+   TOAST
+   ===================================================== */
+.toast {
+  @apply flex items-start gap-3 px-4 py-3 rounded-xl shadow-card-lg text-sm font-medium;
+  min-width: 280px;
+  max-width: 420px;
+  pointer-events: auto;
+}
+.toast-success { @apply toast bg-white border-l-4 border-emerald-500 text-text-primary; }
+.toast-error { @apply toast bg-white border-l-4 border-red-500 text-text-primary; }
+.toast-warning { @apply toast bg-white border-l-4 border-yellow-500 text-text-primary; }
+.toast-info { @apply toast bg-white border-l-4 border-blue-500 text-text-primary; }
+
+/* =====================================================
+   NAV DROPDOWN
+   ===================================================== */
+.dropdown {
+  @apply absolute right-0 top-full mt-2 bg-white border border-surface-200 rounded-2xl shadow-card-lg overflow-hidden;
+  min-width: 200px;
+  z-index: 100;
+}
+.dropdown-item {
+  @apply flex items-center gap-3 px-4 py-3 text-sm text-text-secondary cursor-pointer;
+  transition: all 0.15s ease;
+}
+.dropdown-item:hover { @apply bg-surface-50 text-text-primary; }
+.dropdown-divider { @apply border-t border-surface-100 my-1; }
+
+/* =====================================================
+   RESPONSIVE UTILITIES
+   ===================================================== */
+@media (max-width: 768px) {
+  .sidebar-desktop { display: none; }
+  .mobile-menu { display: flex; }
+}
+@media (min-width: 769px) {
+  .mobile-menu { display: none; }
+}
+
+/* =====================================================
+   PRINT
+   ===================================================== */
+@media print {
+  .navbar, .sidebar-desktop { display: none; }
+  .page-wrapper { padding-top: 0; }
+}
